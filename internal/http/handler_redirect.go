@@ -10,11 +10,6 @@ import (
 
 // HandlerRedirect - обрабатывает GET /{id} и делает редирект
 func HandleRedirect(w http.ResponseWriter, r *http.Request, s *shortener.Service) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
 	identifier := strings.TrimPrefix(r.URL.Path, "/")
 	if identifier == "" {
 		http.NotFound(w, r)

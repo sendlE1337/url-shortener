@@ -12,11 +12,6 @@ import (
 
 // HandlerPost обрабатывает POST-запрос /shorten
 func HandleShortener(w http.ResponseWriter, r *http.Request, s *shortener.Service) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
 		http.Error(w, "failed to read body", http.StatusBadRequest)
