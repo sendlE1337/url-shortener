@@ -24,8 +24,8 @@ func HandlePost(w http.ResponseWriter, r *http.Request, s *shortener.Service) {
 	}
 
 	originalURL := strings.TrimSpace(string(body))
-	if originalURL == "" {
-		http.Error(w, "empty url", http.StatusBadRequest)
+	if err := validateURL(originalURL); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
