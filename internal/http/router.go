@@ -10,13 +10,13 @@ func NewRouter(s *shortener.Service) *http.ServeMux {
 	mux := http.NewServeMux()
 
 	//POST /shorten - создание короткой ссылки
-	mux.HandleFunc("/shorten", func(w http.ResponseWriter, r *http.Request) {
-		HandlePost(w, r, s)
-	})
+	mux.HandleFunc("/shorten", RequireMethod("POST", func(w http.ResponseWriter, r *http.Request) {
+		HandleShortener(w, r, s)
+	}))
 
 	//Get /{id} - редирект на оригинальный URL
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", RequireMethod("GET", func(w http.ResponseWriter, r *http.Request) {
 		HandleRedirect(w, r, s)
-	})
+	}))
 	return mux
 }
